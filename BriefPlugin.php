@@ -54,7 +54,7 @@ Class BriefPlugin extends BasePlugin
 
 			$sectionId = $event->params['entry']->sectionId;
 
-			$sectionTitle = ($this->_getSectionTitle($sectionId));
+			$sectionTitle = $this->_getSectionTitle($sectionId);
 
 			$entryUrl = $this->_getPageUrl($event->params['entry']->slug);
 
