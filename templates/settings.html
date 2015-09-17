@@ -1,0 +1,21 @@
+{% import '_includes/forms' as forms %}
+
+{{
+	forms.SelectField({
+		label: "What section should trigger an email?"|t,
+		instructions: "Any entries added to this section will notify the users you set."|t,
+		name: 'trigger_section',
+		options: sections,
+		value: settings.trigger_section
+	})
+}}
+
+{{
+	forms.SelectField({
+		label: "Which User Group should recieve notifications?"|t,
+		instructions: "All users in this group will receive an email notification."|t,
+		name: 'user_group',
+		options: groups,
+		value: settings.user_group
+	})
+}}

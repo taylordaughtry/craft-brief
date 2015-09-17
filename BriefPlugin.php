@@ -34,6 +34,29 @@ Class BriefPlugin extends BasePlugin
         return 'https://github.com/taylordaughtry/brief';
     }
 
+    public function defineSettings()
+    {
+        return array(
+            'test' => array(AttributeType::String, 'default' => 'value'),
+            'trigger_section' => array(AttributeType::Mixed, 'default' => ''),
+            'user_group' => array(AttributeType::Mixed, 'default' => '')
+        );
+    }
+
+    public function getSettingsHtml()
+    {
+        $currentSections = $this->_getSectionNames();
+
+        $currentGroups = $this->_getUserGroups();
+
+        return craft()->templates->render('brief/settings', array('settings' => $this->getSettings(), 'sections' => $currentSections, 'groups' => $currentGroups));
+    }
+
+    public function prepSettings($settings)
+    {
+        return $settings;
+    }
+
     /**
      * When an entry is saved, this checks to see if it's the section that we
      * should be notifying users about. If it is, it sends the email. If not,
@@ -50,7 +73,9 @@ Class BriefPlugin extends BasePlugin
 
     	craft()->on('entries.SaveEntry', function(Event $event) {
 
-		if ($event->params['entry']->sectionId == 2) {
+        $settings = craft()->plugins->getPlugin('brief')->getSettings();
+
+		if ($event->params['entry']->sectionId == $settings->trigger_section) {
 
 			$sectionId = $event->params['entry']->sectionId;
 
@@ -61,7 +86,7 @@ Class BriefPlugin extends BasePlugin
     			// Criteria is basically a 'return elements that match this'
     			$user_criteria = craft()->elements->getCriteria(ElementType::User);
 
-    			$user_criteria->group_id = '1';
+    			$user_criteria->group_id = $settings->user_group;
 
     			$users = $user_criteria->find();
 
@@ -112,5 +137,42 @@ Class BriefPlugin extends BasePlugin
     private function _getSectionTitle($sectionId)
     {
     	return craft()->sections->getSectionById($sectionId)->name;
+    }
+
+    /**
+     * Get all section IDs and names.
+     *
+     * @method _getSectionNames
+     * @return array Section IDs and Names as $id => $name
+     */
+    private function _getSectionNames()
+    {
+        $query = craft()->sections->getAllSections();
+
+        foreach ($query as $object) {
+            $sections[$object->id] = $object->name;
+        }
+
+        return $sections;
+    }
+
+    /**
+     * Get all user groups.
+     *
+     * @method _getUserGroups
+     * @return array User Group IDs and Names as $id => $name
+     */
+    private function _getUserGroups()
+    {
+        $query = craft()->db->createCommand()
+            ->select('id, name')
+            ->from('usergroups')
+            ->queryAll();
+
+        foreach ($query as $row) {
+            $groups[$row['id']] = $row['name'];
+        }
+
+        return $groups;
     }
 }
