@@ -86,7 +86,7 @@ Class BriefPlugin extends BasePlugin
     			// Criteria is basically a 'return elements that match this'
     			$user_criteria = craft()->elements->getCriteria(ElementType::User);
 
-    			$user_criteria->group_id = $settings->user_group;
+    			$user_criteria->groupId = $settings->user_group;
 
     			$users = $user_criteria->find();
 
