@@ -1,4 +1,16 @@
 {% import '_includes/forms' as forms %}
+{% includeCssResource "lib/redactor/redactor.css" %}
+{% includeJsResource "lib/redactor/redactor.js" %}
+
+{% set redactorJs %}
+(function() {
+	$('.briefEmailBody').redactor({
+		buttons: ['html','formatting','bold','italic'],
+		formatting: ['p', 'h1', 'h2']
+	});
+})();
+{% endset %}
+{% includeJs redactorJs %}
 
 {{
 	forms.SelectField({
@@ -19,3 +31,29 @@
 		value: settings.user_group
 	})
 }}
+
+{{ forms.textareaField({
+	label: "Email Body"|t,
+	instructions: "The body of the email. Links to the entry will show below this."|t,
+	class: 'briefEmailBody',
+	name: 'email_body',
+	value: (settings.email_body is defined) ? settings.email_body : ''
+}) }}
+
+{{ forms.lightswitchField({
+	label: "Frontend Link?"|t,
+	instructions: "If turned on, a link to the entry on the public facing website will show below the email body."|t,
+	name: 'frontend_link',
+	on: settings.frontend_link,
+	onLabel: "On"|t,
+	offLabel: "Off"|t
+}) }}
+
+{{ forms.lightswitchField({
+	label: "Backend Link?"|t,
+	instructions: "If turned on, a link to the entry in the CMS will show below the email body."|t,
+	name: 'backend_link',
+	on: settings.backend_link,
+	onLabel: "On"|t,
+	offLabel: "Off"|t
+}) }}
