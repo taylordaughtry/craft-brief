@@ -11,7 +11,7 @@ Class BriefPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '0.1.0';
+        return '0.1.1';
     }
 
     public function getDeveloper()
@@ -37,9 +37,11 @@ Class BriefPlugin extends BasePlugin
     public function defineSettings()
     {
         return array(
-            'test' => array(AttributeType::String, 'default' => 'value'),
             'trigger_section' => array(AttributeType::Mixed, 'default' => ''),
             'user_group' => array(AttributeType::Mixed, 'default' => '')
+            'email_body' => array(AttributeType::Mixed, 'default' => '<h1>Hi there!</h1><p>An entry has been updated</p>'),
+            'frontend_link'		=>	array(AttributeType::Bool,	'default' => true),
+            'backend_link'		=>	array(AttributeType::Bool,	'default' => true),
         );
     }
 
@@ -73,15 +75,13 @@ Class BriefPlugin extends BasePlugin
 
     	craft()->on('entries.SaveEntry', function(Event $event) {
 
-        $settings = craft()->plugins->getPlugin('brief')->getSettings();
-
-		if ($event->params['entry']->sectionId == $settings->trigger_section) {
-
+            $settings = craft()->plugins->getPlugin('brief')->getSettings();
+		
 			$sectionId = $event->params['entry']->sectionId;
 
-			$sectionTitle = $this->_getSectionTitle($sectionId);
+			if ($sectionId == $settings->trigger_section) {
 
-			$entryUrl = $this->_getPageUrl($event->params['entry']->slug);
+				$sectionTitle = $this->_getSectionTitle($sectionId);
 
     			// Criteria is basically a 'return elements that match this'
     			$user_criteria = craft()->elements->getCriteria(ElementType::User);
@@ -90,7 +90,24 @@ Class BriefPlugin extends BasePlugin
 
     			$users = $user_criteria->find();
 
-    			$body = '<table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#FFF" style="background: #FFF; width: 100%;">	<tr>		<td height="36" style="font-size: 0; line-height: 0">&nbsp;</td>	</tr>	<tr>		<td width="100%">		<span style="font-size: 24px; line-height: 24px; font-family: Helvetica, Arial, sans-serif; color: #444; font-weight: bold;">Hey, There!</span><br>		</td>	</tr>	<tr>		<td height="48" style="font-size: 0; line-height: 0">&nbsp;</td>	</tr>	<tr>		<td>		<span style="font-size: 16px; line-height: 24px; font-family: Helvetica, Arial, sans-serif; color: #444;">A new entry was just added in the ' . $sectionTitle . ' channel. <a href="' . $entryUrl . '" style="font-size: 16px; line-height: 24px; font-family: Helvetica, Arial, sans-serif; color: #444;text-decoration: underline;">Take a look.</a></span><br>		</td>	</tr>	<tr>		<td height="36" style="font-size: 0; line-height: 0">&nbsp;</td>	</tr>	<tr>		<td style="border-top: 1px solid #DDD;" width="225">		<span style="font-size: 12px; line-height: 24px; font-family: arial, sans-serif; color: #888;">Sent via <a href="#" style="font-size: 12px; line-height: 24px; font-family: arial, sans-serif; color: #888; text-decoration: underline;">Brief</a></span>		</td>	</tr></table>';
+    			// Build links for below the email body
+				$isEnabled = ($event->params['entry']->enabled) ? 'enabled' : 'disabled';
+				$body_links = '<strong>This entry is '.$isEnabled.'</strong><br>';
+				if($settings->frontend_link)
+				{
+					$body_links .= '<a href="'.$this->_getPageUrl($event->params['entry']->id).'">View on website</a>';
+				}
+				if($settings->backend_link)
+				{
+					if($settings->frontend_link)$body_links .= ' / ';
+					$body_links .= '<a href="'.$this->_getCmsUrl($event->params['entry']->id).'">Edit in CMS</a>';
+				}
+				
+				$body = '<div style="font-family: Helvetica, Arial, sans-serif; color: #222;">'
+						. $settings->email_body
+						. '<hr />'
+						. $body_links
+						. '</div>';
 
     			foreach ($users as $user) {
     				$email = new EmailModel();
@@ -109,23 +126,42 @@ Class BriefPlugin extends BasePlugin
     	});
     }
 
+	// return an entry from the entry_id
+	private function _getElementFromId($entry_id)
+	{
+		// Get element from id
+		$criteria = craft()->elements->getCriteria(ElementType::Entry);
+		$criteria->id = $entry_id;
+		return $criteria->first();
+	}
+
     /**
      * Fetches the page URL via the Element Criteria functionality.
      *
      * @method _getPageUrl
-     * @param string $slug The entry slug.
+     * @param string $id The entry id.
      * @return string The entry's URL.
      */
-    private function _getPageUrl($slug)
+    private function _getPageUrl($id)
     {
-    	$criteria = craft()->elements->getCriteria(ElementType::Entry);
-
-    	$criteria->slug = $slug;
-
-    	$entry = $criteria->first();
+    	$entry = $this->_getElementFromId($id);
 
     	return $entry ? $entry->getUrl() : false;
     }
+	
+	/**
+	 * Generates a link to the entry in the backend.
+	 *
+	 * @method _getCmsUrl
+	 * @param string $id The entry id.
+	 * @return string The entry URL in the CMS.
+	 */
+	private function _getCmsUrl($id)
+	{
+		$entry = $this->_getElementFromId($id);
+		
+		return $entry ? $entry->getCpEditUrl() : false;
+	}
 
     /**
      * Gets the section's title with the ID.
