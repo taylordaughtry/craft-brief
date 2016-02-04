@@ -10,6 +10,7 @@
 	})
 }}
 
+{% if settings.user_group is not empty %}
 {{
 	forms.SelectField({
 		label: "Which User Group should recieve notifications?"|t,
@@ -19,3 +20,9 @@
 		value: settings.user_group
 	})
 }}
+
+{% else %}
+
+<p>You don't have any User Groups set. You can add them in User Settings.</p>
+
+{% endif %}
