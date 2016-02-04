@@ -37,7 +37,6 @@ Class BriefPlugin extends BasePlugin
 	public function defineSettings()
 	{
 		return array(
-			'test' => array(AttributeType::String, 'default' => 'value'),
 			'trigger_section' => array(AttributeType::Mixed, 'default' => ''),
 			'user_group' => array(AttributeType::Mixed, 'default' => '')
 		);
