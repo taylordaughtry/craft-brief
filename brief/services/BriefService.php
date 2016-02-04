@@ -5,16 +5,29 @@ class BriefService extends BaseApplicationComponent
 {
 	protected $settings;
 
+	protected $slackUri;
+
+	protected $entryUri;
+
+	protected $sectionName;
+
 	public function __construct()
 	{
 		$this->settings = craft()->plugins->getPlugin('brief')->getSettings();
+		$this->slackUri = $this->settings->slack_webhook;
 	}
 
 	public function notifyUsers($entry)
 	{
+		$this->sectionName = $entry->section->name;
+
+		$this->entryUri = $entry['uri'];
+
+		$this->notifySlack($entry);
+
 		$body = $this->generateBody($entry);
 
-		$subject = 'New Entry in the ' . $entry->section->name . ' channel';
+		$subject = 'New Entry in the ' . $this->sectionName . ' channel';
 
 		foreach ($this->getUsers() as $user) {
 			$email = new EmailModel();
@@ -64,9 +77,29 @@ class BriefService extends BaseApplicationComponent
 	{
 		$variables = [
 			'sectionTitle' => $entry->section->name,
-			'entryUrl' => craft()->getSiteUrl() . $entry['uri'],
+			'entryUrl' => craft()->getSiteUrl() . $this->entryUri,
 		];
 
 		return craft()->templates->render('brief/notification', $variables);
+	}
+
+	public function notifySlack($entry)
+	{
+		$client = new \Guzzle\Http\Client();
+
+	 	$request = $client
+			->post($this->slackUri)
+			->setPostField('payload',
+				json_encode([
+					'text' => 'An entry has been added or updated in the ' .
+					$this->sectionName . ' channel. <' . craft()->getSiteUrl() .
+					$this->entryUri .'|Take a look>.'
+				])
+			);
+
+		$response = $request->send();
+
+		var_dump($response); die;
+
 	}
 }

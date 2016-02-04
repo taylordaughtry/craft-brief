@@ -26,3 +26,13 @@
 <p>You don't have any User Groups set. You can add them in User Settings.</p>
 
 {% endif %}
+
+{{
+	forms.textField({
+		label: "Slack Webhook URI",
+		instructions: "If you'd like Slack integration, paste your full webhook URI here.",
+		name: 'slack_webhook',
+		value: settings.slack_webhook
+
+	})
+}}
