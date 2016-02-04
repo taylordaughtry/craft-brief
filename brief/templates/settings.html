@@ -10,7 +10,7 @@
 	})
 }}
 
-{% if settings.user_group is not empty %}
+{% if groups is not empty %}
 {{
 	forms.SelectField({
 		label: "Which User Group should recieve notifications?"|t,
