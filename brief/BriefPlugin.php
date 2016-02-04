@@ -11,7 +11,7 @@ Class BriefPlugin extends BasePlugin
 
 	public function getVersion()
 	{
-		return '0.1.0';
+		return '1.1.0';
 	}
 
 	public function getDeveloper()
@@ -37,7 +37,6 @@ Class BriefPlugin extends BasePlugin
 	public function defineSettings()
 	{
 		return array(
-			'test' => array(AttributeType::String, 'default' => 'value'),
 			'trigger_section' => array(AttributeType::Mixed, 'default' => ''),
 			'user_group' => array(AttributeType::Mixed, 'default' => ''),
 			'slack_webhook' => array(AttributeType::String, 'default' => ''),
