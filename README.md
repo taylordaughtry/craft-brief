@@ -11,6 +11,8 @@ new entries are added to a section.
 
 This module is in active development. If you need a feature, let me know and I'll add it as soon as reasonably possible. If you encounter any issues, please open an issue and I'll work with you and patch the problem. Thanks!
 
+Brief has Slack integration. Just paste your Slack webhook into Brief's settings, and we'll notify your selected Slack Channel whenever there's an update.
+
 ## Feature Roadmap
 - Add email templates from ThemeForest, CodeCanyon, and elsewhere that work with Brief automatically
 - Easily build custom email templates with Twig, just like any other template.
