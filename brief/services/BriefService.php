@@ -36,7 +36,7 @@ class BriefService extends BaseApplicationComponent
 
 			$email->subject = $subject;
 
-			$email->body = $body;
+			$email->htmlBody = $body;
 
 			craft()->email->sendEmail($email);
 		}
@@ -76,11 +76,13 @@ class BriefService extends BaseApplicationComponent
 	public function generateBody($entry)
 	{
 		$variables = [
+			'siteName' => craft()->getSiteName(),
+			'cpEditUrl' => UrlHelper::getCpUrl(),
 			'sectionTitle' => $entry->section->name,
 			'entryUrl' => craft()->getSiteUrl() . $this->entryUri,
 		];
 
-		return craft()->templates->render('brief/notification', $variables);
+		return craft()->templates->render('brief/email', $variables);
 	}
 
 	public function notifySlack($entry)
