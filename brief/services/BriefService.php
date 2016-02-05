@@ -23,7 +23,9 @@ class BriefService extends BaseApplicationComponent
 
 		$this->entryUri = $entry['uri'];
 
-		$this->notifySlack($entry);
+		if ($this->slackUri) {
+			$this->notifySlack($entry);
+		}
 
 		$body = $this->generateBody($entry);
 
