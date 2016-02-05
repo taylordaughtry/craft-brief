@@ -103,7 +103,5 @@ class BriefService extends BaseApplicationComponent
 
 		$response = $request->send();
 
-		var_dump($response); die;
-
 	}
 }
