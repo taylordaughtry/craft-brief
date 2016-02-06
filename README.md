@@ -1,4 +1,4 @@
-![Brief](http://i.imgur.com/56WYCcz.png)
+![Brief](http://i.imgur.com/uBUUxkf.png)
 
 ![Craft](https://img.shields.io/badge/craft-v2.5-orange.svg)
 
