@@ -1,6 +1,4 @@
-![Brief](http://i.imgur.com/eoSbsh5.jpg)
-
-# Brief: Simple Email & Slack Notifications
+![Brief](http://i.imgur.com/ELoHI60.png)
 
 ![Craft](https://img.shields.io/badge/craft-v2.5-orange.svg)
 
