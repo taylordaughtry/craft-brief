@@ -81,4 +81,9 @@ Class BriefPlugin extends BasePlugin
 
 		});
 	}
+
+	public function onAfterInstall()
+	{
+		craft()->request->redirect(UrlHelper::getCpUrl('brief/welcome'));
+	}
 }

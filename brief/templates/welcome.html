@@ -1,0 +1,16 @@
+{% extends '_layouts/cp' %}
+{% set title = 'Get Started with Brief' %}
+{% includeCssResource "seomatic/css/style.css" %}
+
+{% set docsUrl = "https://github.com/taylordaughtry/Craft-Brief/blob/master/README.md" %}
+
+{% set content %}
+	<div style="text-align: center; padding: 3rem; max-width: 29rem; margin: 0 auto;">
+		<h2>Thanks for using Brief!</h2>
+		<p>Brief is simple user-group notification plugin built by <a href="https://github.com/taylordaughtry" target="_blank">Taylor Daughtry</a>. It works with Craft's <code>SaveEntry</code> hook to notify users when an entry has been added or updated. It also notifies users when an entry is created via front-end form.</p>
+
+		<p>Get started by telling Brief what Section to watch, and who it should notify about any changes. Don't forget to follow me on GitHub if you enjoy Brief!</p>
+
+		<p style="margin-top: 2rem;"><a href="{{ url('settings/plugins/brief') }}" class="btn submit" data-icon="settings" style="margin-right: 2rem;">Brief Settings</a><a href="https://github.com/taylordaughtry" class="btn add icon" target="_blank">Follow me on GitHub</a></p>
+	</div>
+{% endset %}
