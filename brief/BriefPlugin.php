@@ -72,13 +72,18 @@ Class BriefPlugin extends BasePlugin
 		parent::init();
 
 		craft()->on('entries.SaveEntry', function(Event $event) {
+			$sectionId = $event->params['entry']->sectionId;
 
-			$triggerSect = $this->getSettings()->trigger_section;
+			foreach (craft()->userGroups->getAllGroups() as $group) {
+				$groupId = $group->id;
 
-			if ($event->params['entry']->sectionId === $triggerSect) {
-				craft()->brief->notifyUsers($event->params['entry']);
+				$permission = 'getnotifications:' . $sectionId;
+
+				if (craft()->userPermissions->doesGroupHavePermission($groupId, $permission)) {
+
+					craft()->brief->notifyUsers($event->params['entry'], $groupId);
+				}
 			}
-
 		});
 	}
 

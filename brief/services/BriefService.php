@@ -17,7 +17,7 @@ class BriefService extends BaseApplicationComponent
 		$this->slackUri = $this->settings->slack_webhook;
 	}
 
-	public function notifyUsers($entry)
+	public function notifyUsers($entry, $groupId)
 	{
 		$this->sectionName = $entry->section->name;
 
@@ -31,7 +31,7 @@ class BriefService extends BaseApplicationComponent
 
 		$subject = 'New Entry in the ' . $this->sectionName . ' channel';
 
-		foreach ($this->getUsers() as $user) {
+		foreach ($this->getUsers($groupId) as $user) {
 			$email = new EmailModel();
 
 			$email->toEmail = $user->email;
@@ -72,11 +72,11 @@ class BriefService extends BaseApplicationComponent
 		return false;
 	}
 
-	public function getUsers()
+	public function getUsers($groupId)
 	{
 		$user_criteria = craft()->elements->getCriteria(ElementType::User);
 
-		$user_criteria->group = $this->settings->user_group;
+		$user_criteria->groupId = $groupId;
 
 		return $user_criteria->find();
 	}
