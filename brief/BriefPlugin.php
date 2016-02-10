@@ -86,4 +86,19 @@ Class BriefPlugin extends BasePlugin
 	{
 		craft()->request->redirect(UrlHelper::getCpUrl('brief/welcome'));
 	}
+
+	public function registerUserPermissions()
+	{
+		$sections = craft()->brief->getSections();
+
+		$data = [];
+
+		foreach ($sections as $key => $value) {
+			$data['getnotifications:' . $key] = [
+				'label' => 'Recieves ' . $value . ' Notifications'
+			];
+		}
+
+		return $data;
+	}
 }
