@@ -1,32 +1,6 @@
 {% import '_includes/forms' as forms %}
 
-{{
-	forms.SelectField({
-		label: "What section should trigger an email?"|t,
-		instructions: "Any entries added to this section will notify the users you set."|t,
-		name: 'trigger_section',
-		options: sections,
-		value: settings.trigger_section
-	})
-}}
-
-{% if groups is not empty %}
-{{
-	forms.SelectField({
-		label: "Which User Group should recieve notifications?"|t,
-		instructions: "All users in this group will receive an email notification."|t,
-		name: 'user_group',
-		options: groups,
-		value: settings.user_group
-	})
-}}
-
-{% else %}
-
-<p>You don't have any User Groups set. You can add them in User Settings.</p>
-
-{% endif %}
-
+<p>Brief's notifications are managed by your User Group settings. You can setup User Groups <a href="{{ url('settings/users') }}">here.</a></p>
 {{
 	forms.textField({
 		label: "Slack Webhook URI",
