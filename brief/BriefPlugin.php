@@ -37,7 +37,7 @@ Class BriefPlugin extends BasePlugin
 	public function getReleaseFeedUrl()
     {
         return 'https://raw.githubusercontent.com/' .
-        'taylordaughtry/brief/master/releases.json';
+        'taylordaughtry/Craft-Brief/master/brief/releases.json';
     }
 
 	public function defineSettings()
