@@ -36,10 +36,13 @@ Class BriefPlugin extends BasePlugin
 
 	public function defineSettings()
 	{
+		$defaultSubject = 'New entry for ' . craft()->getSiteName();
+
 		return array(
 			'trigger_section' => array(AttributeType::Mixed, 'default' => ''),
 			'user_group' => array(AttributeType::Mixed, 'default' => ''),
 			'slack_webhook' => array(AttributeType::String, 'default' => ''),
+			'subject' => array(AttributeType::Mixed, 'default' => $defaultSubject),
 		);
 	}
 

@@ -29,14 +29,21 @@ class BriefService extends BaseApplicationComponent
 
 		$body = $this->generateBody($entry);
 
-		$subject = 'New Entry in the ' . $this->sectionName . ' channel';
+		$subjectTemplate = $this->settings->subject;
+
+		$variables = [
+			'section' => $entry->section->name,
+			'title' => $entry->title,
+		];
+
+		$renderedSubject = craft()->templates->renderString($subjectTemplate, $variables);
 
 		foreach ($this->getUsers($groupId) as $user) {
 			$email = new EmailModel();
 
 			$email->toEmail = $user->email;
 
-			$email->subject = $subject;
+			$email->subject = $renderedSubject;
 
 			$email->htmlBody = $body;
 

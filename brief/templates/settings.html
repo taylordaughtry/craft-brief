@@ -1,6 +1,17 @@
 {% import '_includes/forms' as forms %}
 
 <p>Brief's notifications are managed by your User Group settings. You can setup User Groups <a href="{{ url('settings/users') }}">here.</a></p>
+
+{{
+	forms.textField({
+		label: "Notification Email Subject",
+		instructions: "Enter your preferred subject line. Feel free to use {{section}} or {{title}} Brief will replace those automatically.",
+		name: 'subject',
+		value: settings.subject
+
+	})
+}}
+
 {{
 	forms.textField({
 		label: "Slack Webhook URI",
