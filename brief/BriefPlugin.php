@@ -34,6 +34,12 @@ Class BriefPlugin extends BasePlugin
 		return 'https://github.com/taylordaughtry/brief';
 	}
 
+	public function getReleaseFeedUrl()
+    {
+        return 'https://raw.githubusercontent.com/' .
+        'taylordaughtry/brief/master/releases.json';
+    }
+
 	public function defineSettings()
 	{
 		$defaultSubject = 'New entry for ' . craft()->getSiteName();

@@ -1,0 +1,13 @@
+[
+    {
+        "version": "1.5.0",
+        "downloadUrl": "https://github.com/taylordaughtry/Craft-Brief/archive/v1.5.0.zip",
+        "date": "2016-02-10T04:18:02+00:00",
+        "notes": [
+            "[Added] Notifications are now controlled by Craft's native User Groups functionality. You'll see Brief's notification options for each section in Group permissions.",
+            "[Added] Subject lines can now be customized in Brief's settings. You can also optionally use certain twig tags, such as {{ title }} or {{ section }}.",
+            "[Added] Added an icon for Brief.",
+            "[Fixed] Fixed an issue where Craft would display an error if there were no User Groups defined."
+        ]
+    }
+]
