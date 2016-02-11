@@ -29,14 +29,7 @@ class BriefService extends BaseApplicationComponent
 
 		$body = $this->generateBody($entry);
 
-		$subjectTemplate = $this->settings->subject;
-
-		$variables = [
-			'section' => $entry->section->name,
-			'title' => $entry->title,
-		];
-
-		$renderedSubject = craft()->templates->renderString($subjectTemplate, $variables);
+		$subject = $this->generateSubject($entry);
 
 		foreach ($this->getUsers($groupId) as $user) {
 			$email = new EmailModel();
@@ -92,6 +85,18 @@ class BriefService extends BaseApplicationComponent
 		$user_criteria->groupId = $groupId;
 
 		return $user_criteria->find();
+	}
+
+	public function generateSubject($entry)
+	{
+		$subjectTemplate = $this->settings->subject;
+
+		$variables = [
+			'section' => $entry->section->name,
+			'title' => $entry->title,
+		];
+
+		return craft()->templates->renderString($subjectTemplate, $variables);
 	}
 
 	public function generateBody($entry)
