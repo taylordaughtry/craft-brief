@@ -67,17 +67,22 @@ class BriefService extends BaseApplicationComponent
 		try {
 			$data = craft()->userGroups->getAllGroups();
 		} catch (\Exception $e) {
+			// We're not using Craft Pro; userGroups isn't defined.
 			BriefPlugin::log('No User Groups have been set.', LogLevel::Info);
 
 			return false;
 		}
 
-		foreach ($data as $group) {
-			$groups[$group->name] = ucfirst($group->name);
+		if ($data) {
+			foreach ($data as $group) {
+				$groups[$group->name] = ucfirst($group->name);
+			}
+		} else {
+			// We're using Craft Pro, but we don't have User Groups set.
+			return false;
 		}
 
 		return $groups;
-		}
 	}
 
 	public function getUsers($groupId)
