@@ -1,6 +1,8 @@
 <?php
 namespace Craft;
 
+use Craft\Brief_NotificationModel as Notification;
+
 class BriefService extends BaseApplicationComponent
 {
 	protected $settings;
@@ -19,26 +21,28 @@ class BriefService extends BaseApplicationComponent
 
 	public function notifyUsers($entry, $groupId)
 	{
-		$this->sectionName = $entry->section->name;
+		$notification = new Notification;
 
-		$this->entryUri = $entry['uri'];
+		$notification->section = $entry->section->name;
+
+		$notification->uri = $entry['uri'];
 
 		if ($this->slackUri) {
 			$this->notifySlack($entry);
 		}
 
-		$body = $this->generateBody($entry);
+		$notification->body = $this->generateBody($entry);
 
-		$subject = $this->generateSubject($entry);
+		$notification->subject = $this->generateSubject($entry);
 
 		foreach ($this->getUsers($groupId) as $user) {
 			$email = new EmailModel();
 
 			$email->toEmail = $user->email;
 
-			$email->subject = $renderedSubject;
+			$email->subject = $notification->subject;
 
-			$email->htmlBody = $body;
+			$email->htmlBody = $notification->body;
 
 			craft()->email->sendEmail($email);
 		}
