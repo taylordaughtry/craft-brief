@@ -64,19 +64,20 @@ class BriefService extends BaseApplicationComponent
 
 	public function getGroups()
 	{
-		$data = craft()->userGroups->getAllGroups();
+		try {
+			$data = craft()->userGroups->getAllGroups();
+		} catch (\Exception $e) {
+			BriefPlugin::log('No User Groups have been set.', LogLevel::Info);
 
-		if ($data) {
-			foreach ($data as $group) {
-				$groups[$group->name] = ucfirst($group->name);
-			}
-
-			return $groups;
+			return false;
 		}
 
-		BriefPlugin::log('No User Groups have been set.', LogLevel::Info);
+		foreach ($data as $group) {
+			$groups[$group->name] = ucfirst($group->name);
+		}
 
-		return false;
+		return $groups;
+		}
 	}
 
 	public function getUsers($groupId)
