@@ -109,7 +109,7 @@ class BriefService extends BaseApplicationComponent
 			'siteName' => craft()->getSiteName(),
 			'cpEditUrl' => UrlHelper::getCpUrl(),
 			'sectionTitle' => $entry->section->name,
-			'entryUrl' => craft()->getSiteUrl() . $this->entryUri,
+			'entryUrl' => craft()->getSiteUrl() . $entry->uri,
 		];
 
 		return craft()->templates->render('brief/email', $variables);
