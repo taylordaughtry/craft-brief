@@ -1,55 +1,56 @@
 <?php
-
 namespace Craft;
 
 Class BriefPlugin extends BasePlugin
 {
+	private $name = 'Brief';
+	private $version = '1.5.0';
+	private $schemaVersion = '0.1.0';
+	private $description = 'The missing plugin for Craft user-group notifications.';
+	private $developer = 'Taylor Daughtry';
+	private $developerUrl = 'https://github.com/taylordaughtry';
+	private $docUrl = 'https://github.com/taylordaughtry/craft-brief';
+	private $feedUrl = 'https://raw.githubusercontent.com/' .
+		'taylordaughtry/Craft-Brief/master/brief/releases.json';
+
 	public function getName()
 	{
-		 return Craft::t('Brief');
+		return $this->name;
 	}
 
 	public function getVersion()
 	{
-		return '1.5.0';
+		return $this->version;
+	}
+
+	public function getSchemaVersion()
+	{
+		return $this->schemaVersion;
+	}
+
+	public function getDescription()
+	{
+		return Craft::t($this->description);
 	}
 
 	public function getDeveloper()
 	{
-		return 'Taylor Daughtry';
+		return $this->developer;
 	}
 
 	public function getDeveloperUrl()
 	{
-		return 'http://github.com/taylordaughtry';
+		return $this->developerUrl;
 	}
 
-	public function getPluginName()
+	public function getDocumentationUrl()
 	{
-		return 'Brief';
-	}
-
-	public function getPluginUrl()
-	{
-		return 'https://github.com/taylordaughtry/brief';
+		return $this->docUrl;
 	}
 
 	public function getReleaseFeedUrl()
-    {
-        return 'https://raw.githubusercontent.com/' .
-        'taylordaughtry/Craft-Brief/master/brief/releases.json';
-    }
-
-	public function defineSettings()
 	{
-		$defaultSubject = 'New entry for ' . craft()->getSiteName();
-
-		return array(
-			'trigger_section' => array(AttributeType::Mixed, 'default' => ''),
-			'user_group' => array(AttributeType::Mixed, 'default' => ''),
-			'slack_webhook' => array(AttributeType::String, 'default' => ''),
-			'subject' => array(AttributeType::Mixed, 'default' => $defaultSubject),
-		);
+		return $this->feedUrl;
 	}
 
 	public function getSettingsHtml()
@@ -64,18 +65,11 @@ Class BriefPlugin extends BasePlugin
 		);
 	}
 
-	public function prepSettings($settings)
+	public function onAfterInstall()
 	{
-		return $settings;
+		craft()->request->redirect(UrlHelper::getCpUrl('brief/welcome'));
 	}
 
-	/**
-	 * When an entry is saved, this checks to see if it's the section that we
-	 * should be notifying users about. If it is, Brief sends an email. If not,
-	 * then this plugin is ignored and the hook continues.
-	 *
-	 * @return void
-	 */
 	public function init()
 	{
 		parent::init();
@@ -96,11 +90,6 @@ Class BriefPlugin extends BasePlugin
 		});
 	}
 
-	public function onAfterInstall()
-	{
-		craft()->request->redirect(UrlHelper::getCpUrl('brief/welcome'));
-	}
-
 	public function registerUserPermissions()
 	{
 		$sections = craft()->brief->getSections();
@@ -114,5 +103,17 @@ Class BriefPlugin extends BasePlugin
 		}
 
 		return $data;
+	}
+
+	protected function defineSettings()
+	{
+		$defaultSubject = 'New entry for ' . craft()->getSiteName();
+
+		return array(
+			'trigger_section' => array(AttributeType::Mixed, 'default' => ''),
+			'user_group' => array(AttributeType::Mixed, 'default' => ''),
+			'slack_webhook' => array(AttributeType::String, 'default' => ''),
+			'subject' => array(AttributeType::Mixed, 'default' => $defaultSubject),
+		);
 	}
 }
