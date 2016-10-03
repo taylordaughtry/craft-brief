@@ -27,7 +27,7 @@ else.
 
 ### How does it work?
 
-Every time an entry is saved, Brief checks whether it's in the section you've specified. If it is, Brief sends a notification email to the User Group you've selected. Note that it's a very light check to see if the saved entry is in your section; you won't have any performance issues if you're saving tons of entries everyday.
+Every time an entry is saved, Brief checks whether it's in the section you've specified. If it is, and the entry is enabled, Brief sends a notification email to the User Group you've selected. Note that it's a very light check to see if the saved entry is in your section; you won't have any performance issues if you're saving tons of entries everyday.
 
 
 ## Usage
