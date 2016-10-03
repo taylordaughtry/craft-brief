@@ -1,6 +1,6 @@
 ![Brief](http://i.imgur.com/EIHmVQM.png)
 
-![Craft](https://img.shields.io/badge/craft-v2.5-orange.svg)
+![Craft](https://img.shields.io/badge/craft-v2.6-orange.svg)
 
 Brief adds notification functionality to your Craft site. It's maintained by [Taylor Daughtry](https://github.com/taylordaughtry).
 
