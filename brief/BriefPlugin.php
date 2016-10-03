@@ -10,8 +10,7 @@ Class BriefPlugin extends BasePlugin
 	private $developer = 'Taylor Daughtry';
 	private $developerUrl = 'https://github.com/taylordaughtry';
 	private $docUrl = 'https://github.com/taylordaughtry/craft-brief';
-	private $feedUrl = 'https://raw.githubusercontent.com/' .
-		'taylordaughtry/Craft-Brief/master/brief/releases.json';
+	private $feedUrl = 'https://raw.githubusercontent.com/taylordaughtry/Craft-Brief/master/brief/releases.json';
 
 	public function getName()
 	{
