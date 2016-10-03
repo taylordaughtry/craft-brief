@@ -57,6 +57,7 @@ Class BriefPlugin extends BasePlugin
 		return craft()
 			->templates
 			->render('brief/settings', array(
+				'subject' => base64_decode($this->getSettings()['subject']),
 				'settings' => $this->getSettings(),
 				'sections' => craft()->brief->getSections(),
 				'groups' => craft()->brief->getGroups()
@@ -104,9 +105,16 @@ Class BriefPlugin extends BasePlugin
 		return $data;
 	}
 
+	public function prepSettings($settings)
+	{
+		$settings['subject'] = base64_encode($settings['subject']);
+
+		return $settings;
+	}
+
 	protected function defineSettings()
 	{
-		$defaultSubject = 'New entry for ' . craft()->getSiteName();
+		$defaultSubject = base64_encode('New entry for ' . craft()->getSiteName());
 
 		return array(
 			'trigger_section' => array(AttributeType::Mixed, 'default' => ''),

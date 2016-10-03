@@ -83,7 +83,7 @@ class BriefService extends BaseApplicationComponent
 
 	public function generateSubject($entry)
 	{
-		$subjectTemplate = $this->settings->subject;
+		$subjectTemplate = base64_decode($this->settings->subject);
 
 		$variables = [
 			'section' => $entry->section->name,
