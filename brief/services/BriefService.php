@@ -95,14 +95,31 @@ class BriefService extends BaseApplicationComponent
 
 	public function generateBody($entry)
 	{
+		// was a custom email template defined?
+		if ('' !== $this->settings->email_template) {
+			$emailTemplate = $this->settings->email_template;
+			// if a custom email template was set we need to update the templates library to use the site templates
+			craft()->templates->setTemplateMode(TemplateMode::Site);
+		} else {
+			$emailTemplate = 'brief/email';
+		}
+
 		$variables = [
 			'siteName' => craft()->getSiteName(),
 			'cpEditUrl' => UrlHelper::getCpUrl(),
+            'entry' => $entry,
 			'sectionTitle' => $entry->section->name,
 			'entryUrl' => craft()->getSiteUrl() . $entry->uri,
 		];
 
-		return craft()->templates->render('brief/email', $variables);
+		$generatedBody = craft()->templates->render($emailTemplate, $variables);
+
+		// if a custom template was defined we need to set the template library back to CP when we're done
+		if ('' !== $this->settings->email_template) {
+			craft()->templates->setTemplateMode(TemplateMode::CP);
+		}
+
+		return $generatedBody;
 	}
 
 	public function notifySlack($entry)
