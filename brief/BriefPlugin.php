@@ -124,6 +124,7 @@ Class BriefPlugin extends BasePlugin
 			'user_group' => array(AttributeType::Mixed, 'default' => ''),
 			'slack_webhook' => array(AttributeType::String, 'default' => ''),
 			'subject' => array(AttributeType::Mixed, 'default' => $defaultSubject),
+			'replyTo' => array(AttributeType::String, 'default' => '')
 		);
 	}
 }

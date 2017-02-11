@@ -14,6 +14,16 @@
 
 {{
 	forms.textField({
+		label: "Reply To Address",
+		instructions: "If you'd like to specify a replyTo address, provide it here.",
+		name: 'replyTo',
+		value: settings.replyTo
+
+	})
+}}
+
+{{
+	forms.textField({
 		label: "Slack Webhook URI",
 		instructions: "If you'd like Slack integration, paste your full webhook URI here.",
 		name: 'slack_webhook',
