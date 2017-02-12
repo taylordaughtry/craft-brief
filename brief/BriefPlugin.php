@@ -54,13 +54,14 @@ Class BriefPlugin extends BasePlugin
 
 	public function getSettingsHtml()
 	{
+		$settings = $this->getSettings();
+
+		$settings['subject'] = base64_decode($settings['subject']);
+
 		return craft()
 			->templates
 			->render('brief/settings', array(
-				'subject' => base64_decode($this->getSettings()['subject']),
-				'settings' => $this->getSettings(),
-				'sections' => craft()->brief->getSections(),
-				'groups' => craft()->brief->getGroups()
+				'settings' => $settings
 			)
 		);
 	}
