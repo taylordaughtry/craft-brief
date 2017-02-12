@@ -6,10 +6,10 @@ class Brief_NotificationModel extends BaseModel
 	protected function defineAttributes()
 	{
 		return array(
-			'section' => AttributeType::Number,
-			'uri' => AttributeType::String,
-			'subject' => AttributeType::Mixed,
 			'body' => AttributeType::Mixed,
+			'section' => AttributeType::Number,
+			'subject' => AttributeType::Mixed,
+			'uri' => AttributeType::String,
 		);
 	}
 }
