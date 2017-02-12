@@ -4,7 +4,7 @@ namespace Craft;
 Class BriefPlugin extends BasePlugin
 {
 	private $name = 'Brief';
-	private $version = '1.5.0';
+	private $version = '2.0.0';
 	private $schemaVersion = '0.1.0';
 	private $description = 'The missing plugin for Craft user-group notifications.';
 	private $developer = 'Taylor Daughtry';
