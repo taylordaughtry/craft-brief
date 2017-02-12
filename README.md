@@ -36,6 +36,12 @@ In Brief's settings, specificy which section you'd like to be notified about. Fo
 
 Also be sure and select a User Group. If you don't have any, Brief will ask you to go create one. If you don't have user groups and still try to use Brief, it won't send any emails so you don't inadvertently email every user on the site.
 
+## Custom Email Templates
+
+Brief supports custom email templates. If you'd like to use one, just specify the template in Brief's settings, and Brief will render your template and send it.
+
+You'll have access to the entry variable within any template you choose to render.
+
 ### Slack Integration
 
 Brief has Slack integration. Just paste your Slack webhook into Brief's
@@ -53,5 +59,4 @@ If you need a feature, let me know and I'll add it as soon as reasonably possibl
 ## Feature Roadmap
 - Add email templates from ThemeForest, CodeCanyon, and
 elsewhere that work with Brief automatically
-- Easily build custom email templates with Twig, just like any other template.
 - Specify whether you'd like notifications for *any* entry, or just new ones.
