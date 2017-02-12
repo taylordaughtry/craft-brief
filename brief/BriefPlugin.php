@@ -75,19 +75,22 @@ Class BriefPlugin extends BasePlugin
 		parent::init();
 
 		craft()->on('entries.SaveEntry', function(Event $event) {
+			$disabledEntries = $this->getSettings()['notifyDisabled'];
 
-			if ($event->params['entry']->status !== 'disabled') {
-				$sectionId = $event->params['entry']->sectionId;
+			if (! $disabledEntries && $event->params['entry']->status == 'disabled') {
+				return;
+			}
 
-				foreach (craft()->userGroups->getAllGroups() as $group) {
-					$groupId = $group->id;
+			$sectionId = $event->params['entry']->sectionId;
 
-					$permission = 'getnotifications:' . $sectionId;
+			foreach (craft()->userGroups->getAllGroups() as $group) {
+				$groupId = $group->id;
 
-					if (craft()->userPermissions->doesGroupHavePermission($groupId, $permission)) {
+				$permission = 'getnotifications:' . $sectionId;
 
-						craft()->brief->notifyUsers($event->params['entry'], $groupId);
-					}
+				if (craft()->userPermissions->doesGroupHavePermission($groupId, $permission)) {
+
+					craft()->brief->notifyUsers($event->params['entry'], $groupId);
 				}
 			}
 		});
@@ -124,7 +127,8 @@ Class BriefPlugin extends BasePlugin
 			'user_group' => array(AttributeType::Mixed, 'default' => ''),
 			'slack_webhook' => array(AttributeType::String, 'default' => ''),
 			'subject' => array(AttributeType::Mixed, 'default' => $defaultSubject),
-			'replyTo' => array(AttributeType::String, 'default' => '')
+			'replyTo' => array(AttributeType::String, 'default' => ''),
+			'notifyDisabled' => array(AttributeType::Bool, 'default' => false)
 		);
 	}
 }
