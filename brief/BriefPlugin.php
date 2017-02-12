@@ -123,7 +123,7 @@ Class BriefPlugin extends BasePlugin
 		$defaultSubject = base64_encode('New entry for ' . craft()->getSiteName());
 
 		return array(
-			'slack_webhook' => array(AttributeType::String, 'default' => ''),
+			'slackWebhook' => array(AttributeType::String, 'default' => ''),
 			'subject' => array(AttributeType::Mixed, 'default' => $defaultSubject),
 			'replyTo' => array(AttributeType::String, 'default' => ''),
 			'notifyDisabled' => array(AttributeType::Bool, 'default' => false),

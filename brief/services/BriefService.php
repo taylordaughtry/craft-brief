@@ -13,7 +13,7 @@ class BriefService extends BaseApplicationComponent
 	public function __construct()
 	{
 		$this->settings = craft()->plugins->getPlugin('brief')->getSettings();
-		$this->slackUri = $this->settings->slack_webhook;
+		$this->slackUri = $this->settings->slackWebhook;
 	}
 
 	public function notifyUsers($entry, $groupId)
