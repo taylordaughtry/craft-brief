@@ -32,7 +32,7 @@ Every time an entry is saved, Brief checks whether it's in the section you've sp
 
 ## Usage
 
-In Brief's settings, specificy which section you'd like to be notified about. For example, if you'd like to be notified when an entry is updated or deleted in the 'News' section, you'd select News from the dropdown.
+In Brief's settings, specify which section you'd like to be notified about. For example, if you'd like to be notified when an entry is updated or deleted in the 'News' section, you'd select News from the dropdown.
 
 Also be sure and select a User Group. If you don't have any, Brief will ask you to go create one. If you don't have user groups and still try to use Brief, it won't send any emails so you don't inadvertently email every user on the site.
 
