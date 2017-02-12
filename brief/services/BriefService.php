@@ -102,6 +102,7 @@ class BriefService extends BaseApplicationComponent
 	{
 		$variables = [
 			'siteName' => craft()->getSiteName(),
+			'entry' => $entry,
 			'cpEditUrl' => UrlHelper::getCpUrl(),
 			'sectionTitle' => $entry->section->name,
 			'entryUrl' => craft()->getSiteUrl() . $entry->uri,
