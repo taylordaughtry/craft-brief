@@ -31,7 +31,11 @@ class BriefService extends BaseApplicationComponent
 		foreach ($this->getUsers($groupId) as $user) {
 			$email = new EmailModel();
 			$email->toEmail = $user->email;
-			$email->replyTo = $this->settings->replyTo;
+
+			if ($this->settings->replyTo) {
+				$email->replyTo = $this->settings->replyTo;
+			}
+
 			$email->subject = $notification->subject;
 			$email->htmlBody = $notification->body;
 
