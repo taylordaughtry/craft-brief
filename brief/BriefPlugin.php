@@ -128,7 +128,8 @@ Class BriefPlugin extends BasePlugin
 			'slack_webhook' => array(AttributeType::String, 'default' => ''),
 			'subject' => array(AttributeType::Mixed, 'default' => $defaultSubject),
 			'replyTo' => array(AttributeType::String, 'default' => ''),
-			'notifyDisabled' => array(AttributeType::Bool, 'default' => false)
+			'notifyDisabled' => array(AttributeType::Bool, 'default' => false),
+			'customTemplate' => array(AttributeType::String, 'default' => '')
 		);
 	}
 }

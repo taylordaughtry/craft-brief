@@ -108,6 +108,16 @@ class BriefService extends BaseApplicationComponent
 			'entryUrl' => craft()->getSiteUrl() . $entry->uri,
 		];
 
+		if ($this->settings['customTemplate']) {
+			craft()->templates->setTemplateMode(TemplateMode::Site);
+
+			$body = craft()->templates->render($this->settings['customTemplate'], $variables);
+
+			craft()->templates->setTemplateMode(TemplateMode::CP);
+
+			return $body;
+		}
+
 		return craft()->templates->render('brief/email', $variables);
 	}
 
