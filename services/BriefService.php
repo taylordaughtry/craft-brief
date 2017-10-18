@@ -21,8 +21,6 @@ class BriefService extends BaseApplicationComponent
 		$notification = new Notification;
 		$notification->section = $entry->section->name;
 		$notification->uri = $entry['uri'];
-		$notification->body = $this->generateBody($entry);
-		$notification->subject = $this->generateSubject($entry);
 
 		if ($this->slackUri) {
 			$this->notifySlack($entry);
@@ -35,6 +33,10 @@ class BriefService extends BaseApplicationComponent
 			if ($this->settings->replyTo) {
 				$email->replyTo = $this->settings->replyTo;
 			}
+
+			// DEV: Generated here to include the receiving user's model.
+			$notification->subject = $this->generateSubject($entry, $user);
+			$notification->body = $this->generateBody($entry, $user);
 
 			$email->subject = $notification->subject;
 			$email->htmlBody = $notification->body;
@@ -63,23 +65,26 @@ class BriefService extends BaseApplicationComponent
 		return $user_criteria->find();
 	}
 
-	public function generateSubject($entry)
+	public function generateSubject($entry, $user)
 	{
 		$subjectTemplate = base64_decode($this->settings->subject);
 
 		$variables = [
 			'section' => $entry->section->name,
 			'title' => $entry->title,
+			'entry' => $entry,
+			'user' => $user
 		];
 
 		return craft()->templates->renderString($subjectTemplate, $variables);
 	}
 
-	public function generateBody($entry)
+	public function generateBody($entry, $user)
 	{
 		$variables = [
 			'siteName' => craft()->getSiteName(),
 			'entry' => $entry,
+			'user' => $user,
 			'cpEditUrl' => UrlHelper::getCpUrl(),
 			'sectionTitle' => $entry->section->name,
 			'entryUrl' => craft()->getSiteUrl() . $entry->uri,
