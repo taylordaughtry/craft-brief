@@ -105,7 +105,7 @@ Class BriefPlugin extends BasePlugin
 
 		foreach ($sections as $key => $value) {
 			$data['getnotifications:' . $key] = [
-				'label' => 'Recieves ' . $value . ' Notifications'
+				'label' => 'Receives ' . $value . ' Notifications'
 			];
 		}
 
